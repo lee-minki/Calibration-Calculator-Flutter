@@ -130,62 +130,64 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
     final zeroPct = double.tryParse(desiredZeroPct) ?? 0;
     final spanPct = double.tryParse(desiredSpanPct) ?? 100;
     
-    return SingleChildScrollView(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
         children: [
           // Sensor mA Range Section
           _buildSectionCard(
-            'SENSOR mA RANGE (센서 범위)',
+            'SENSOR mA RANGE',
             Row(
               children: [
                 Expanded(child: _buildInputCard('Zero mA', sensorZeroMa, 'sensorZeroMa')),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 Expanded(child: _buildInputCard('Span mA', sensorSpanMa, 'sensorSpanMa')),
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           
           // Physical Measurement Section
           _buildSectionCard(
-            'PHYSICAL MEASUREMENT (현장 측정값)',
+            'PHYSICAL MEASUREMENT',
             Row(
               children: [
-                Expanded(child: _buildInputCard('Zero Position mA', physZeroMa, 'physZeroMa')),
-                const SizedBox(width: 8),
-                Expanded(child: _buildInputCard('Span Position mA', physSpanMa, 'physSpanMa')),
+                Expanded(child: _buildInputCard('Zero mA', physZeroMa, 'physZeroMa')),
+                const SizedBox(width: 6),
+                Expanded(child: _buildInputCard('Span mA', physSpanMa, 'physSpanMa')),
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           
           // Desired DCS Range Section
           _buildSectionCard(
-            'DESIRED DCS RANGE (원하는 표시 범위)',
+            'DESIRED DCS RANGE',
             Row(
               children: [
-                Expanded(child: _buildInputCard('Zero Point %', desiredZeroPct, 'desiredZeroPct')),
-                const SizedBox(width: 8),
-                Expanded(child: _buildInputCard('Span Point %', desiredSpanPct, 'desiredSpanPct')),
+                Expanded(child: _buildInputCard('Zero %', desiredZeroPct, 'desiredZeroPct')),
+                const SizedBox(width: 6),
+                Expanded(child: _buildInputCard('Span %', desiredSpanPct, 'desiredSpanPct')),
               ],
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           
           // Result Section
           _buildResultSection(result),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           
           // Zone Graph
           _buildZoneGraph(zeroPct, spanPct),
-          const SizedBox(height: 12),
+          
+          const Spacer(),
           
           // Keypad
           Keypad(
             onKey: handleKey,
             showPercentageRow: false,
           ),
+          const SizedBox(height: 4),
         ],
       ),
     );
@@ -194,10 +196,10 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
   Widget _buildSectionCard(String title, Widget child) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: const Color(0xFF19192A).withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.white10),
       ),
       child: Column(
@@ -206,12 +208,12 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
           Text(
             title,
             style: const TextStyle(
-              fontSize: 10,
+              fontSize: 9,
               color: Colors.white38,
-              letterSpacing: 0.5,
+              letterSpacing: 0.3,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           child,
         ],
       ),
@@ -223,17 +225,17 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
     return GestureDetector(
       onTap: () => setFocus(field),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: const Color(0xFF12121A),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(6),
           border: Border.all(
             color: isActive ? const Color(0xFF00D4FF) : Colors.transparent,
             width: isActive ? 2 : 1,
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               label,
@@ -242,7 +244,6 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
                 color: Colors.white38,
               ),
             ),
-            const SizedBox(height: 2),
             Text(
               value,
               style: const TextStyle(
@@ -260,33 +261,27 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
   Widget _buildResultSection(Map<String, double> result) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       decoration: BoxDecoration(
         color: const Color(0xFF00D4FF).withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: const Color(0xFF00D4FF).withValues(alpha: 0.3),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
           const Text(
-            'DCS SETTING (설정값)',
+            'DCS SETTING',
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 9,
               color: Colors.white38,
-              letterSpacing: 0.5,
             ),
           ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Expanded(child: _buildResultBox('0% mA', result['dcsZeroMa']!)),
-              const SizedBox(width: 8),
-              Expanded(child: _buildResultBox('100% mA', result['dcsSpanMa']!)),
-            ],
-          ),
+          const SizedBox(width: 12),
+          Expanded(child: _buildResultBox('0%', result['dcsZeroMa']!)),
+          const SizedBox(width: 6),
+          Expanded(child: _buildResultBox('100%', result['dcsSpanMa']!)),
         ],
       ),
     );
@@ -294,12 +289,13 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
 
   Widget _buildResultBox(String label, double value) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0xFF12121A),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(6),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
@@ -308,11 +304,10 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
               color: Colors.white38,
             ),
           ),
-          const SizedBox(height: 4),
           Text(
             value.toStringAsFixed(2),
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
               fontFamily: 'monospace',
               color: Color(0xFF00D4FF),
@@ -339,24 +334,38 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
     final position = ((value - min) / (max - min)).clamp(0.0, 1.0);
     
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
       decoration: BoxDecoration(
         color: const Color(0xFF12121A),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 10,
-              color: Colors.white38,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 9,
+                  color: Colors.white38,
+                ),
+              ),
+              Text(
+                '$value%',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'monospace',
+                  color: Color(0xFF00D4FF),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 4),
           // Track with marker and tick marks
           SizedBox(
-            height: 40,
+            height: 28,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 final trackWidth = constraints.maxWidth;
@@ -365,30 +374,28 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
                   children: [
                     // Background track
                     Positioned(
-                      top: 10,
+                      top: 6,
                       left: 0,
                       right: 0,
                       child: Container(
-                        height: 16,
+                        height: 12,
                         decoration: BoxDecoration(
                           color: Colors.white10,
-                          borderRadius: BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(3),
                         ),
                       ),
                     ),
-                    // Tick marks (0.5% small, 1% large)
-                    ...List.generate(21, (i) {
-                      final tickValue = min + (i * 0.5);
-                      final tickPos = (i / 20) * trackWidth;
-                      final isLargeTick = i % 2 == 0; // 1% intervals
-                      final isCenterTick = i == 10; // 0% or 100%
+                    // Tick marks (1% large only for compact)
+                    ...List.generate(11, (i) {
+                      final tickPos = (i / 10) * trackWidth;
+                      final isCenterTick = i == 5;
                       
                       return Positioned(
                         left: tickPos - 0.5,
-                        top: isLargeTick ? 6 : 10,
+                        top: 4,
                         child: Container(
                           width: 1,
-                          height: isLargeTick ? 24 : 16,
+                          height: 16,
                           color: isCenterTick 
                             ? const Color(0xFF00D4FF) 
                             : Colors.white24,
@@ -397,19 +404,18 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
                     }),
                     // Marker
                     Positioned(
-                      left: position * (trackWidth - 6),
-                      top: 8,
+                      left: position * (trackWidth - 4),
+                      top: 5,
                       child: Container(
-                        width: 6,
-                        height: 20,
+                        width: 4,
+                        height: 14,
                         decoration: BoxDecoration(
                           color: const Color(0xFF00D4FF),
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: BorderRadius.circular(2),
                           boxShadow: [
                             BoxShadow(
                               color: const Color(0xFF00D4FF).withValues(alpha: 0.6),
-                              blurRadius: 10,
-                              spreadRadius: 2,
+                              blurRadius: 6,
                             ),
                           ],
                         ),
@@ -420,38 +426,14 @@ class _PositionerCalculatorScreenState extends State<PositionerCalculatorScreen>
               },
             ),
           ),
-          const SizedBox(height: 4),
-          // Tick labels (1% intervals only)
+          // Tick labels (min, center, max only)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(11, (i) {
-              final labelValue = (min + i).toInt();
-              final isCenterLabel = i == 5;
-              return SizedBox(
-                width: 20,
-                child: Text(
-                  '$labelValue',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 7,
-                    fontWeight: isCenterLabel ? FontWeight.bold : FontWeight.normal,
-                    color: isCenterLabel ? const Color(0xFF00D4FF) : Colors.white38,
-                    fontFamily: 'monospace',
-                  ),
-                ),
-              );
-            }),
-          ),
-          const SizedBox(height: 6),
-          // Current value
-          Text(
-            '$value%',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'monospace',
-              color: Color(0xFF00D4FF),
-            ),
+            children: [
+              Text('${min.toInt()}', style: const TextStyle(fontSize: 7, color: Colors.white38, fontFamily: 'monospace')),
+              Text('${((min + max) / 2).toInt()}', style: const TextStyle(fontSize: 7, color: Color(0xFF00D4FF), fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+              Text('${max.toInt()}', style: const TextStyle(fontSize: 7, color: Colors.white38, fontFamily: 'monospace')),
+            ],
           ),
         ],
       ),
