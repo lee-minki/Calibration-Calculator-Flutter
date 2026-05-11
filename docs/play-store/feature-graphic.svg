@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0A0A0F"/>
+      <stop offset="100%" stop-color="#12121A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00D4FF"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00D4FF" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#00D4FF" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="500" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#1f1f2e" stroke-width="1">
+    <path d="M0,125 H1024 M0,250 H1024 M0,375 H1024"/>
+    <path d="M128,0 V500 M256,0 V500 M384,0 V500 M512,0 V500 M640,0 V500 M768,0 V500 M896,0 V500"/>
+  </g>
+
+  <!-- Glow accent under bolt -->
+  <ellipse cx="200" cy="380" rx="200" ry="50" fill="url(#glow)" filter="url(#soft)"/>
+
+  <!-- Big bolt mark -->
+  <g transform="translate(80,110)">
+    <path d="M140 0 L60 200 L120 200 L80 280 L210 90 L150 90 L180 0 Z"
+          fill="url(#accent)" stroke="#00D4FF" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Title -->
+  <g font-family="'SF Pro Display', 'Inter', Arial, sans-serif" fill="#ffffff">
+    <text x="380" y="180" font-size="62" font-weight="800" letter-spacing="-1">
+      Calibration
+    </text>
+    <text x="380" y="252" font-size="62" font-weight="800" letter-spacing="-1" fill="url(#accent)">
+      Calculator
+    </text>
+    <text x="380" y="306" font-size="22" font-weight="500" fill="#9999AE">
+      Loop · Positioner · 4-20mA — built for the field
+    </text>
+  </g>
+
+  <!-- Feature pills -->
+  <g font-family="'Inter', Arial, sans-serif" font-size="16" font-weight="600">
+    <g transform="translate(380,350)">
+      <rect width="170" height="40" rx="20" fill="#12121A" stroke="#00D4FF" stroke-opacity="0.4"/>
+      <text x="85" y="26" text-anchor="middle" fill="#00D4FF">100% OFFLINE</text>
+    </g>
+    <g transform="translate(566,350)">
+      <rect width="180" height="40" rx="20" fill="#12121A" stroke="#7C3AED" stroke-opacity="0.4"/>
+      <text x="90" y="26" text-anchor="middle" fill="#B58BFF">DARK · COMPACT</text>
+    </g>
+    <g transform="translate(762,350)">
+      <rect width="170" height="40" rx="20" fill="#12121A" stroke="#00D4FF" stroke-opacity="0.4"/>
+      <text x="85" y="26" text-anchor="middle" fill="#00D4FF">DCS · POSITIONER</text>
+    </g>
+  </g>
+</svg>

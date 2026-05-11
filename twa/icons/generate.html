@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calibration Calculator — Icon Generator</title>
+<style>
+    body { background:#0A0A0F; color:#E6E6F0; font-family:system-ui, sans-serif;
+           margin:0; padding:24px; }
+    h1 { color:#00D4FF; font-size:18px; margin:0 0 12px; }
+    p  { color:#9999AE; font-size:13px; margin:0 0 16px; max-width:560px; line-height:1.5; }
+    .row { display:flex; gap:16px; flex-wrap:wrap; margin-top:16px; }
+    .card { background:#12121A; border:1px solid #2A2A3A; border-radius:12px;
+            padding:16px; text-align:center; }
+    .card canvas { background:#000; border-radius:8px; image-rendering:pixelated; }
+    .card a { display:inline-block; margin-top:8px; padding:6px 12px;
+              background:#00D4FF; color:#0A0A0F; border-radius:6px;
+              text-decoration:none; font-weight:600; font-size:12px; }
+    .card div { font-size:11px; color:#9999AE; margin-top:6px; }
+</style>
+</head>
+<body>
+    <h1>⚡ Icon Generator</h1>
+    <p>Open this file in a browser. It rasterises <code>icon.svg</code> and <code>icon-maskable.svg</code>
+        into PWA-required PNG sizes. Click each "Download" link and save the files into this
+        <code>icons/</code> directory with the suggested filename.</p>
+
+    <div class="row" id="out"></div>
+
+<script>
+const targets = [
+    { src: 'icon.svg',           size: 192, name: 'Icon-192.png' },
+    { src: 'icon.svg',           size: 512, name: 'Icon-512.png' },
+    { src: 'icon-maskable.svg',  size: 192, name: 'Icon-maskable-192.png' },
+    { src: 'icon-maskable.svg',  size: 512, name: 'Icon-maskable-512.png' },
+    { src: 'icon.svg',           size: 180, name: 'apple-touch-icon.png' },
+    { src: 'icon.svg',           size: 32,  name: 'favicon-32.png' },
+];
+
+async function rasterise({ src, size, name }) {
+    const svgText = await fetch(src).then(r => r.text());
+    const blob = new Blob([svgText], { type: 'image/svg+xml' });
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = url;
+    });
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, size, size);
+    URL.revokeObjectURL(url);
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    const previewCanvas = document.createElement('canvas');
+    previewCanvas.width = previewCanvas.height = Math.min(size, 128);
+    previewCanvas.getContext('2d').drawImage(canvas, 0, 0, previewCanvas.width, previewCanvas.height);
+    card.appendChild(previewCanvas);
+
+    const link = document.createElement('a');
+    link.href = canvas.toDataURL('image/png');
+    link.download = name;
+    link.textContent = 'Download';
+    card.appendChild(link);
+
+    const label = document.createElement('div');
+    label.textContent = name + ' (' + size + '×' + size + ')';
+    card.appendChild(label);
+
+    document.getElementById('out').appendChild(card);
+}
+
+(async () => {
+    for (const t of targets) await rasterise(t);
+})();
+</script>
+</body>
+</html>

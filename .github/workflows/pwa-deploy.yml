@@ -1,0 +1,61 @@
+name: Deploy PWA to GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'twa/**'
+      - '.github/workflows/pwa-deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Prepare PWA bundle
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install icon converter (librsvg)
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin
+
+      - name: Generate PNG icons from SVG
+        working-directory: twa/icons
+        run: |
+          rsvg-convert -w 192  -h 192  icon.svg          -o Icon-192.png
+          rsvg-convert -w 512  -h 512  icon.svg          -o Icon-512.png
+          rsvg-convert -w 192  -h 192  icon-maskable.svg -o Icon-maskable-192.png
+          rsvg-convert -w 512  -h 512  icon-maskable.svg -o Icon-maskable-512.png
+          rsvg-convert -w 180  -h 180  icon.svg          -o apple-touch-icon.png
+          rsvg-convert -w 32   -h 32   icon.svg          -o favicon-32.png
+
+      - name: Stamp service worker with build SHA
+        working-directory: twa
+        run: |
+          SHA="${GITHUB_SHA::8}"
+          sed -i "s/^const BUILD_TAG = .*/const BUILD_TAG = '$SHA';/" sw.js
+          grep BUILD_TAG sw.js
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: twa
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

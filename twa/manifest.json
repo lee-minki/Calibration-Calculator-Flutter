@@ -1,0 +1,59 @@
+{
+    "name": "Calibration Calculator",
+    "short_name": "CalibCalc",
+    "description": "Professional instrumentation calibration tools — Loop (4-20mA scaling) and Positioner (DCS) calculators for field engineers.",
+    "id": "/?source=pwa",
+    "start_url": "/?source=pwa",
+    "scope": "/",
+    "display": "standalone",
+    "display_override": ["standalone", "minimal-ui"],
+    "background_color": "#0A0A0F",
+    "theme_color": "#0A0A0F",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "categories": ["utilities", "productivity"],
+    "lang": "en",
+    "dir": "ltr",
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Loop Calculator",
+            "short_name": "Loop",
+            "description": "Open the Loop (4-20mA) calculator",
+            "url": "/?tab=loop",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+        },
+        {
+            "name": "Positioner Calculator",
+            "short_name": "Positioner",
+            "description": "Open the Positioner (DCS) calculator",
+            "url": "/?tab=positioner",
+            "icons": [{ "src": "icons/Icon-192.png", "sizes": "192x192" }]
+        }
+    ]
+}

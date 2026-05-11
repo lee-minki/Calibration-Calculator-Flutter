@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="description" content="Professional instrumentation calibration tools — Loop (4-20mA scaling) and Positioner (DCS) calculators for field engineers.">
+    <meta name="theme-color" content="#0a0a0f">
+
+    <!-- iOS PWA support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CalibCalc">
+    <meta name="format-detection" content="telephone=no">
+
+    <title>Calibration Calculator</title>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+    <!-- Fonts: preconnect + display=swap so layout never blocks on the network.
+         Offline users fall back to the system stack defined in styles.css. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header with Page Navigation -->
+        <header class="app-header">
+            <h1 class="app-title">
+                <span class="icon">⚡</span>
+                <span>Calib Calc</span>
+            </h1>
+            <nav class="page-tabs">
+                <button class="tab-btn active" data-page="loop">Loop</button>
+                <button class="tab-btn" data-page="positioner">Positioner</button>
+            </nav>
+        </header>
+
+        <!-- ========================================
+             LOOP PAGE (existing)
+             ======================================== -->
+        <div class="page-content" id="loopPage">
+            <!-- Range Inputs -->
+            <section class="range-grid">
+                <div class="range-input-card">
+                    <label>Input Low</label>
+                    <div class="input-wrapper" id="inputLowWrapper">
+                        <input type="number" id="inputLow" value="0" step="any" readonly>
+                    </div>
+                </div>
+                <div class="range-input-card">
+                    <label>Input High</label>
+                    <div class="input-wrapper" id="inputHighWrapper">
+                        <input type="number" id="inputHigh" value="100" step="any" readonly>
+                    </div>
+                </div>
+                <div class="range-input-card">
+                    <label>Output Low</label>
+                    <div class="input-wrapper" id="outputLowWrapper">
+                        <input type="number" id="outputLow" value="4" step="any" readonly>
+                    </div>
+                </div>
+                <div class="range-input-card">
+                    <label>Output High</label>
+                    <div class="input-wrapper" id="outputHighWrapper">
+                        <input type="number" id="outputHigh" value="20" step="any" readonly>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Value Displays -->
+            <main class="calculator-main">
+                <section class="calc-section focus-section">
+                    <div class="focus-label">
+                        <span id="currentFocusLabel">INPUT VALUE</span>
+                    </div>
+                    <div class="value-display main-display" id="mainDisplay">
+                        <span class="value-text" id="currentValue">0</span>
+                    </div>
+                </section>
+
+                <section class="calc-section result-section highlight">
+                    <div class="focus-label">
+                        <span>OUTPUT VALUE</span>
+                    </div>
+                    <div class="result-container">
+                        <div class="value-display result-display">
+                            <span class="value-text result-value" id="resultValue">4</span>
+                        </div>
+                    </div>
+                    <div class="bar-graph-container">
+                        <div class="bar-percentage" id="barPercentage">0%</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" id="barFill" style="width: 0%"></div>
+                        </div>
+                        <div class="bar-ruler">
+                            <span class="tick-label">0</span>
+                            <span class="tick-label">25</span>
+                            <span class="tick-label">50</span>
+                            <span class="tick-label">75</span>
+                            <span class="tick-label">100</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Keypad -->
+                <div class="keypad" id="loopKeypad">
+                    <button class="key key-pct" data-action="pct" data-value="0">0%</button>
+                    <button class="key key-pct" data-action="pct" data-value="25">25%</button>
+                    <button class="key key-pct" data-action="pct" data-value="50">50%</button>
+                    <button class="key key-pct" data-action="pct" data-value="75">75%</button>
+                    <button class="key key-pct" data-action="pct" data-value="100">100%</button>
+
+                    <button class="key" data-key="7">7</button>
+                    <button class="key" data-key="8">8</button>
+                    <button class="key" data-key="9">9</button>
+                    <button class="key key-func" data-key="clearAll">CA</button>
+
+                    <button class="key" data-key="4">4</button>
+                    <button class="key" data-key="5">5</button>
+                    <button class="key" data-key="6">6</button>
+                    <button class="key key-func" data-key="clear">C</button>
+
+                    <button class="key" data-key="1">1</button>
+                    <button class="key" data-key="2">2</button>
+                    <button class="key" data-key="3">3</button>
+                    <button class="key key-func" data-key="backspace">⌫</button>
+
+                    <button class="key" data-key="0">0</button>
+                    <button class="key" data-key=".">.</button>
+                    <button class="key key-func" data-key="negate">±</button>
+                    <button class="key key-calculate" data-key="enter">Calc</button>
+                </div>
+            </main>
+
+            <!-- Advanced Panel -->
+            <div class="advanced-panel" id="advancedPanel">
+                <div class="panel-header">
+                    <h3>Advanced Features</h3>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="enableAdvanced">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="panel-options disabled" id="advancedOptions">
+                    <div class="option-row">
+                        <label>Hysteresis (%)</label>
+                        <input type="number" id="hysteresisVal" value="0.0" step="0.1">
+                    </div>
+                    <div class="option-row">
+                        <label>Resolution</label>
+                        <select id="resSelect">
+                            <option value="2">2 Decimal</option>
+                            <option value="3">3 Decimal</option>
+                            <option value="4" selected>4 Decimal</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================
+             POSITIONER PAGE (new)
+             ======================================== -->
+        <div class="page-content hidden" id="positionerPage">
+            <!-- Sensor mA Range Section -->
+            <section class="section-card">
+                <h3 class="section-title">Sensor mA Range (센서 범위)</h3>
+                <div class="range-grid">
+                    <div class="range-input-card">
+                        <label>Zero mA</label>
+                        <div class="input-wrapper" id="sensorZeroWrapper">
+                            <input type="number" id="sensorZeroMa" value="4" step="any" readonly>
+                        </div>
+                    </div>
+                    <div class="range-input-card">
+                        <label>Span mA</label>
+                        <div class="input-wrapper" id="sensorSpanWrapper">
+                            <input type="number" id="sensorSpanMa" value="20" step="any" readonly>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Physical Measurement Section -->
+            <section class="section-card">
+                <h3 class="section-title">Physical Measurement (현장 측정값)</h3>
+                <div class="range-grid">
+                    <div class="range-input-card">
+                        <label>Zero Position mA</label>
+                        <div class="input-wrapper" id="physZeroWrapper">
+                            <input type="number" id="physZeroMa" value="5.5" step="any" readonly>
+                        </div>
+                    </div>
+                    <div class="range-input-card">
+                        <label>Span Position mA</label>
+                        <div class="input-wrapper" id="physSpanWrapper">
+                            <input type="number" id="physSpanMa" value="18.5" step="any" readonly>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Desired DCS Range Section -->
+            <section class="section-card">
+                <h3 class="section-title">Desired DCS Range (원하는 표시 범위)</h3>
+                <div class="range-grid">
+                    <div class="range-input-card">
+                        <label>Zero Point %</label>
+                        <div class="input-wrapper" id="desiredZeroWrapper">
+                            <input type="number" id="desiredZeroPct" value="-1" step="any" readonly>
+                        </div>
+                    </div>
+                    <div class="range-input-card">
+                        <label>Span Point %</label>
+                        <div class="input-wrapper" id="desiredSpanWrapper">
+                            <input type="number" id="desiredSpanPct" value="99.5" step="any" readonly>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Section -->
+            <section class="section-card result-card">
+                <h3 class="section-title">DCS Setting (설정값)</h3>
+                <div class="range-grid result-grid">
+                    <div class="result-box">
+                        <label>0% mA</label>
+                        <span class="result-big" id="dcsZeroMa">5.63</span>
+                    </div>
+                    <div class="result-box">
+                        <label>100% mA</label>
+                        <span class="result-big" id="dcsSpanMa">18.56</span>
+                    </div>
+                </div>
+                <!-- 2-Zone Bar Graph: -5~5% and 95~105% with 1% ticks -->
+                <div class="bar-graph-2zone">
+                    <!-- Left Zone: -5% to 5% -->
+                    <div class="expanded-zone">
+                        <div class="zone-header">Zero Zone</div>
+                        <div class="zone-track-expanded">
+                            <div class="zone-marker" id="zeroMarker"></div>
+                        </div>
+                        <div class="zone-ticks">
+                            <span>-5</span><span>-4</span><span>-3</span><span>-2</span><span>-1</span>
+                            <span class="zero-tick">0</span>
+                            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                        </div>
+                        <div class="zone-current" id="zeroPointDisplay">-1%</div>
+                    </div>
+                    <!-- Right Zone: 95% to 105% -->
+                    <div class="expanded-zone">
+                        <div class="zone-header">Span Zone</div>
+                        <div class="zone-track-expanded">
+                            <div class="zone-marker" id="spanMarker"></div>
+                        </div>
+                        <div class="zone-ticks">
+                            <span>95</span><span>96</span><span>97</span><span>98</span><span>99</span>
+                            <span class="hundred-tick">100</span>
+                            <span>101</span><span>102</span><span>103</span><span>104</span><span>105</span>
+                        </div>
+                        <div class="zone-current" id="spanPointDisplay">99.5%</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Positioner Keypad -->
+            <div class="keypad" id="positionerKeypad">
+                <button class="key" data-key="7">7</button>
+                <button class="key" data-key="8">8</button>
+                <button class="key" data-key="9">9</button>
+                <button class="key key-func" data-key="clearAll">CA</button>
+
+                <button class="key" data-key="4">4</button>
+                <button class="key" data-key="5">5</button>
+                <button class="key" data-key="6">6</button>
+                <button class="key key-func" data-key="clear">C</button>
+
+                <button class="key" data-key="1">1</button>
+                <button class="key" data-key="2">2</button>
+                <button class="key" data-key="3">3</button>
+                <button class="key key-func" data-key="backspace">⌫</button>
+
+                <button class="key" data-key="0">0</button>
+                <button class="key" data-key=".">.</button>
+                <button class="key key-func" data-key="negate">±</button>
+                <button class="key key-calculate" data-key="enter">Calc</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

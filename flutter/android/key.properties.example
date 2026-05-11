@@ -1,0 +1,8 @@
+# Copy to key.properties and fill in real values.
+# This file is for local development only. CI should use the
+# ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_PASSWORD / ANDROID_KEY_ALIAS /
+# ANDROID_KEYSTORE_PATH environment variables instead.
+storePassword=CHANGE_ME
+keyPassword=CHANGE_ME
+keyAlias=upload
+storeFile=upload-keystore.jks

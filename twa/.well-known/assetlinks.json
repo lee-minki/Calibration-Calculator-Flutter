@@ -1,0 +1,13 @@
+[
+  {
+    "_comment": "Upload keystore fingerprint. After first Play Store upload, ALSO add the Play App Signing key fingerprint (from Play Console → Setup → App signing).",
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.leeminki.calibration_calculator",
+      "sha256_cert_fingerprints": [
+        "6F:A1:9B:C9:38:0C:07:E1:7F:E0:81:FB:2A:F9:FD:B6:C4:D5:E8:80:EB:FA:6A:95:A4:31:FE:20:0F:8E:B3:EB"
+      ]
+    }
+  }
+]

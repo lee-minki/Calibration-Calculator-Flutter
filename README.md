@@ -1,178 +1,219 @@
 # ⚙️ Calibration Calculator
 
-A professional Flutter mobile application for industrial instrumentation calibration calculations, designed for field engineers and technicians working with control systems and sensors.
+Professional instrumentation calibration tools for field engineers and technicians working with industrial control systems and sensors.
 
-> **Latest Release**: v1.0.2 - Optimized for modern Android devices (Galaxy S24/S25)
+> **Multi-Platform Solution**: Available as both a native Flutter mobile app and a Progressive Web App (PWA)
 
 ## 🎯 Overview
 
-Calibration Calculator provides two essential calculation tools for process control instrumentation:
+Calibration Calculator provides essential calculation tools for process control instrumentation:
 
-- **Loop Calculator**: Converts values between input/output ranges (4-20mA signal scaling)
-- **Positioner Calculator**: Calculates DCS (Distributed Control System) settings for valve positioner calibration
+- **Loop Calculator**: Convert values between input/output ranges (4-20mA signal scaling)
+- **Positioner Calculator**: Calculate DCS (Distributed Control System) settings for valve positioner calibration
 
-Built with Flutter for a smooth, native mobile experience with an elegant dark-themed UI and custom numeric keypad for precise data entry.
+## 📱 Choose Your Version
 
-## ✨ Features
+This monorepo contains two implementations of the Calibration Calculator:
 
-### 🔄 Loop Calculator
-- **Input/Output Range Mapping**: Convert process values to 4-20mA signals and vice versa
-- **Configurable Ranges**: Customize both input and output ranges
-- **Quick Percentage Buttons**: Instantly calculate values at 0%, 25%, 50%, 75%, and 100%
-- **Visual Bar Graph**: Real-time visual representation of output percentage
-- **Precision Calculation**: Support for decimal values with automatic formatting
+### 🚀 [Flutter Version](./flutter) - Recommended for Mobile
 
-### 🎚️ Positioner Calculator
-- **DCS Setting Calculation**: Determine optimal zero and span settings for valve positioners
-- **Physical Measurement Input**: Enter actual sensor readings for calibration
-- **Desired Range Configuration**: Set target DCS percentage ranges
-- **Zone Visualization**: Visual indicators for zero zone (-5% to 5%) and span zone (95% to 105%)
-- **Compact Layout**: Optimized for single-screen operation without scrolling
+**Native mobile app** built with Flutter for Android devices.
 
-### 📱 User Experience
-- **Dark Theme**: Professional dark UI optimized for field conditions
-- **Custom Keypad**: Built-in numeric keypad with decimal and sign support
-- **Haptic Feedback**: Tactile responses for button presses and selections
-- **Portrait-Only**: Locked orientation for consistent operation
-- **AdMob Integration**: Banner ads with non-intrusive placement
+**Features**:
+- Native performance and offline capability
+- Dark theme optimized for field conditions
+- Custom numeric keypad with haptic feedback
+- AdMob integration
+- Portrait-only orientation lock
+- Optimized for Galaxy S24/S25
 
-## 🚀 Installation
+**Latest Release**: v1.0.2
+
+**Installation**:
+- Download from [GitHub Releases](https://github.com/lee-minki/Calibration-Calculator-Flutter/releases)
+- Supports Android 5.0+
+
+[→ View Flutter Documentation](./flutter/README.md)
+
+---
+
+### 🌐 [PWA/TWA Version](./twa)
+
+**Progressive Web App** that works in any modern browser.
+
+**Features**:
+- Cross-platform (works on any device with a web browser)
+- No installation required - use directly from browser
+- Installable as standalone app
+- Service Worker for offline support
+- Lightweight and fast
+
+**Status**: v1.0.0 (Stable)
+
+**Usage**:
+- Access via web browser
+- Can be installed as PWA on mobile devices
+- Also available as TWA (Trusted Web Activity) for Android
+
+[→ View PWA Documentation](./twa/README.md)
+
+---
+
+## 🔄 Feature Comparison
+
+| Feature | Flutter | PWA/TWA |
+|---------|---------|---------|
+| **Platform** | Android (native) | Any browser |
+| **Installation** | APK/AAB download | Browser or install as PWA |
+| **Performance** | Native (faster) | Web-based |
+| **Offline Mode** | ✅ Full | ✅ Service Worker |
+| **App Size** | ~40MB | <100KB |
+| **Updates** | Manual download | Automatic |
+| **Haptic Feedback** | ✅ | Limited |
+| **AdMob Ads** | ✅ | ❌ |
+| **Best For** | Daily field use | Quick access, cross-platform |
+
+## 🛠️ Core Calculations
+
+Both versions provide identical calculation capabilities:
+
+### Loop Calculator
+Converts process values to standard output signals:
+- Configurable input/output ranges
+- Quick percentage calculations (0%, 25%, 50%, 75%, 100%)
+- Real-time visual feedback
+- Support for decimal precision
+
+**Example**: Temperature transmitter (0-100°C → 4-20mA)
+- Input: 50°C → Output: 12mA
+
+### Positioner Calculator
+Determines DCS settings for valve positioners:
+- Physical measurement input
+- Desired DCS range configuration
+- Zero/Span zone visualization (-5% to 5%, 95% to 105%)
+- Real-time DCS setting calculation
+
+**Example**: Valve positioner calibration
+- Physical readings: 5.5mA (zero), 18.5mA (span)
+- Desired range: -0.5% to 99.5%
+- Result: Calculated DCS settings
+
+## 🏗️ Repository Structure
+
+```
+calibration-calculator/
+├── flutter/                  # Flutter mobile app (Android primary, iOS scaffolded)
+│   ├── lib/                 # Dart source code
+│   ├── android/             # Android platform code
+│   │   └── app/
+│   │       ├── build.gradle.kts        # env-var-aware signing config
+│   │       ├── key.properties.example  # local-dev template
+│   │       └── proguard-rules.pro      # R8 rules (AdMob + Flutter)
+│   ├── ios/                 # iOS platform code (future)
+│   ├── assets/icon/         # Master PNGs for flutter_launcher_icons
+│   └── README.md            # Flutter-specific documentation
+│
+├── twa/                     # Progressive Web App / TWA source
+│   ├── index.html           # Markup + iOS PWA meta
+│   ├── app.js               # Logic + SW registration
+│   ├── styles.css           # Dark design system
+│   ├── sw.js                # Service Worker (BUILD_TAG cache busting)
+│   ├── manifest.json        # PWA manifest with shortcuts/maskable
+│   ├── privacy.html         # Privacy Policy (en + ko)
+│   ├── icons/               # SVG sources + PNG outputs
+│   ├── .well-known/
+│   │   └── assetlinks.json  # Digital Asset Links for TWA
+│   └── README.md            # PWA-specific documentation
+│
+├── docs/
+│   └── play-store/          # Store-listing assets
+│       ├── listing-en.md            # title/short/full description (English)
+│       ├── listing-ko.md            # 등록정보 (한국어)
+│       ├── data-safety.md           # Play Console Data Safety answers
+│       ├── feature-graphic.svg      # Source 1024×500
+│       └── feature-graphic.png      # Renderable PNG for Play Console
+│
+├── scripts/
+│   ├── release.sh           # one-shot AAB+APK build
+│   └── bump-version.sh      # patch/minor/major version bump + git tag
+│
+├── .github/workflows/
+│   ├── flutter-ci.yml       # format/analyze/test on PR
+│   ├── flutter-release.yml  # AAB/APK on tag push + GitHub Release
+│   └── pwa-deploy.yml       # GitHub Pages deploy on twa/** push
+│
+└── README.md                # This file
+```
+
+## 🚢 Release flow
+
+```bash
+./scripts/bump-version.sh patch       # 1.0.2+4 → 1.0.3+5, commits + tags
+git push && git push --tags           # Triggers Flutter release workflow
+```
+
+The release workflow builds + signs the AAB, uploads it as a workflow
+artifact, and (on tag push) attaches the AAB/APK to a GitHub Release.
+Upload the AAB to Play Console manually for review.
+
+See `docs/play-store/` for the listing text, data-safety answers, and the
+feature graphic ready for upload.
+
+## 🚀 Quick Start
 
 ### For End Users
 
-Download the latest release from the [Releases](https://github.com/lee-minki/Calibration-Calculator-Flutter/releases) page:
-
-1. Download `CalibrationCalculator-v1.0.2.aab` or `.apk` file
+**Mobile (Android)**:
+1. Download the latest Flutter APK from [Releases](https://github.com/lee-minki/Calibration-Calculator-Flutter/releases)
 2. Install on your Android device
 3. Launch and start calculating
 
+**Web/Any Device**:
+1. Open your browser
+2. Navigate to the deployed PWA URL (see [twa/README.md](./twa/README.md))
+3. Use directly or install as app
+
 ### For Developers
 
-**Prerequisites**:
-- Flutter SDK 3.10.4 or higher
-- Dart SDK
-- Android Studio or VS Code with Flutter extensions
-
-**Setup**:
-
+**Flutter Version**:
 ```bash
-# Clone the repository
-git clone https://github.com/lee-minki/Calibration-Calculator-Flutter.git
-cd Calibration-Calculator-Flutter
-
-# Install dependencies
+cd flutter/
 flutter pub get
-
-# Run the app
 flutter run
 ```
 
-**Build for production**:
-
+**PWA Version**:
 ```bash
-# Build Android App Bundle
-flutter build appbundle --release
-
-# Build APK
-flutter build apk --release
+cd twa/
+# Serve with any static file server
+python -m http.server 8000
+# Or use Live Server in VS Code
 ```
 
-## 📖 Usage
+## 📖 Documentation
 
-### Loop Calculator
-
-1. **Set Input Range**: Tap on INPUT LOW and INPUT HIGH to configure your process range (e.g., 0-100°C)
-2. **Set Output Range**: Configure OUTPUT LOW and OUTPUT HIGH (typically 4-20mA)
-3. **Enter Input Value**: Tap the main input field and enter your process value
-4. **Read Output**: The calculated output signal is displayed instantly
-5. **Quick Calculations**: Use percentage buttons (0%, 25%, 50%, 75%, 100%) for common checkpoints
-
-**Example**: For a temperature transmitter (0-100°C → 4-20mA):
-- Input Range: 0 to 100
-- Output Range: 4 to 20
-- Input Value: 50°C → Output: 12mA
-
-### Positioner Calculator
-
-1. **Sensor mA Range**: Enter the sensor's signal range (typically 4-20mA)
-2. **Physical Measurement**: Input actual mA readings at zero and span positions
-3. **Desired DCS Range**: Set your target percentage range (e.g., -0.5% to 99.5%)
-4. **DCS Setting**: Read the calculated zero and span values for DCS configuration
-5. **Zone Indicators**: Monitor zero and span zones for optimal calibration
-
-**Example**: Valve positioner calibration:
-- Physical Zero: 5.5mA at fully closed position
-- Physical Span: 18.5mA at fully open position
-- Desired Range: -0.5% to 99.5%
-- Result: DCS settings for 0% and 100% positions
-
-## 🛠️ Technical Stack
-
-**Framework & Language**:
-- [Flutter](https://flutter.dev) - Cross-platform mobile framework
-- Dart 3.10.4+ - Programming language
-
-**Key Dependencies**:
-- `google_mobile_ads` (^5.3.0) - AdMob integration for banner ads
-- `shared_preferences` (^2.3.5) - Local data persistence
-- `cupertino_icons` (^1.0.8) - iOS-style icons
-
-**Development Tools**:
-- `flutter_lints` (^6.0.0) - Dart code analysis and linting
-
-## 🏗️ Architecture
-
-```
-lib/
-├── main.dart                          # App entry point and theme configuration
-├── screens/
-│   ├── home_screen.dart              # Main screen with tab navigation
-│   ├── loop_calculator_screen.dart   # Loop calculation UI and logic
-│   └── positioner_calculator_screen.dart  # Positioner calculation UI and logic
-├── widgets/
-│   ├── keypad.dart                   # Custom numeric keypad component
-│   └── bar_graph.dart                # Visual percentage bar display
-└── services/
-    └── ad_service.dart               # AdMob integration service
-```
+- [Flutter App Documentation](./flutter/README.md) - Detailed Flutter app guide
+- [PWA Documentation](./twa/README.md) - Web app deployment and usage
 
 ## 🎨 Design Philosophy
 
-- **Field-Ready**: Dark theme reduces eye strain in various lighting conditions
-- **Single-Hand Operation**: Compact layout designed for mobile use
-- **Professional Aesthetic**: Gradient accents and clean typography
-- **No Clutter**: Focused interface with only essential controls
-- **Instant Feedback**: Real-time calculations and visual indicators
+Both versions share a consistent design language:
 
-## 📋 Roadmap
+- **Dark Theme**: Optimized for various lighting conditions
+- **Professional Aesthetic**: Clean, focused interface
+- **Field-Ready**: Designed for real-world industrial environments
+- **Intuitive**: Minimal learning curve for engineers
 
-- [ ] iOS version support
-- [ ] Additional calculator types (Temperature, Pressure conversions)
-- [ ] Calculation history and favorites
-- [ ] Export/share calculation results
-- [ ] Multi-language support
-- [ ] Offline documentation
+## 📋 Version History
 
-## 🔧 Development
+### Flutter
+- **v1.0.2** (2024-12-19): Compact layout for Galaxy S24/S25
+- **v1.0.1**: AdMob integration
+- **v1.0.0**: Initial release
 
-### Project Structure Conventions
-
-- **State Management**: StatefulWidget with local state
-- **Theming**: Material Design 3 with custom dark color scheme
-- **Code Style**: Following Flutter/Dart official style guide
-- **Testing**: Widget tests in `test/` directory
-
-### Color Palette
-
-- Primary: `#00D4FF` (Cyan)
-- Secondary: `#7C3AED` (Purple)
-- Background: `#0A0A0F` (Near black)
-- Surface: `#12121A` (Dark gray)
-- Card: `#19192A` (Lighter gray)
-
-## 📄 License
-
-This project is private and proprietary. All rights reserved.
+### PWA/TWA
+- **v1.0.0**: Initial release with core calculations
 
 ## 👤 Author
 
@@ -180,10 +221,14 @@ This project is private and proprietary. All rights reserved.
 - GitHub: [@lee-minki](https://github.com/lee-minki)
 - Email: minki.lee622@gmail.com
 
+## 📄 License
+
+This project is private and proprietary. All rights reserved.
+
 ## 🙏 Acknowledgments
 
-Built for industrial automation professionals who need reliable, quick calculations in the field. Special consideration given to compact UI design for modern Android devices.
+Built for industrial automation professionals who need reliable, quick calculations in the field. Designed with input from process engineers and instrument technicians.
 
 ---
 
-Made with Flutter 💙 | Version 1.0.2+4
+**Choose the version that best fits your needs** - native mobile performance or cross-platform flexibility!

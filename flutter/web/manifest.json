@@ -1,0 +1,42 @@
+{
+    "name": "Calibration Calculator",
+    "short_name": "CalibCalc",
+    "start_url": ".",
+    "scope": "./",
+    "id": "com.leeminki.calibration_calculator",
+    "display": "standalone",
+    "background_color": "#0A0A0F",
+    "theme_color": "#0A0A0F",
+    "description": "Professional instrumentation calibration tools — Loop (4-20mA scaling) and Positioner (DCS) calculators for field engineers.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "categories": [
+        "utilities",
+        "productivity"
+    ],
+    "lang": "en",
+    "icons": [
+        {
+            "src": "icons/Icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/Icon-maskable-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icons/Icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
